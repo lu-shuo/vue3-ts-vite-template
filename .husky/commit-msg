@@ -1,0 +1,4 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+# 校验git-commit命令
+npx --no -- commitlint --edit
