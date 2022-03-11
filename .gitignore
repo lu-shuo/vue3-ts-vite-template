@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.eslintcache
+.cache
+.npmrc
+.env.local
+.env.*.local
