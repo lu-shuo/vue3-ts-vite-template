@@ -12,7 +12,7 @@ module.exports = {
     // 指定字符串使用单引号或双引号 "single"|"double"
     'string-quotes': 'single',
     // 颜色指定大写
-    'color-hex-case': 'upper',
+    // 'color-hex-case': 'upper',
     // 禁止空块
     'block-no-empty': true,
     // 颜色6位长度
@@ -34,7 +34,23 @@ module.exports = {
     // 禁止低优先级的选择器出现在高优先级的选择器之后。
     'no-descending-specificity': null,
     // 不验证@未知的名字，为了兼容scss的函数
-    'at-rule-no-unknown': null,
+    'at-rule-no-unknown': [
+      true,
+      {
+        ignoreAtRules: [
+          'tailwind',
+          'apply',
+          'variants',
+          'responsive',
+          'screen',
+          'function',
+          'if',
+          'each',
+          'include',
+          'mixin',
+        ],
+      },
+    ],
     // 禁止空注释
     'comment-no-empty': true,
     // 禁止简写属性的冗余值
@@ -61,7 +77,7 @@ module.exports = {
       },
     ],
     // 禁止小于 1 的小数有一个前导零
-    'number-leading-zero': 'never',
+    // 'number-leading-zero': 'never',
     // 禁止空第一行
     'no-empty-first-line': true,
     // css书写顺序
