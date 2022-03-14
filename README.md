@@ -112,6 +112,132 @@ export default defineConfig({
 }
 ```
 
+## 添加 router
+
+1. 安装
+
+```shell
+npm install vue-router@4
+```
+
+2. 配置
+
+新建`src/router/index.ts`:
+
+```typescript
+import { createRouter, createWebHashHistory } from 'vue-router';
+import type { RouteRecordRaw } from 'vue-router';
+import Home from '@/views/Home.vue';
+
+const routes: Array<RouteRecordRaw> = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: () => import('@/views/About.vue'), // 懒加载组件
+  },
+];
+
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes,
+});
+
+export default router;
+```
+
+3. 挂载
+
+```typescript
+// main.ts
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router/index';
+
+createApp(App).use(router).mount('#app');
+```
+
+## 添加 vuex
+
+1. 安装
+
+```shell
+npm install vuex@next --save
+```
+
+2. 配置
+
+```typescript
+import { InjectionKey } from 'vue';
+import { createStore, useStore as baseUseStore, Store } from 'vuex';
+
+export interface State {
+  count: number;
+}
+
+export const key: InjectionKey<Store<State>> = Symbol();
+
+export const store = createStore<State>({
+  state: {
+    count: 0,
+  },
+  mutations: {
+    increment(state) {
+      state.count++;
+    },
+  },
+  actions: {
+    increment(context) {
+      setTimeout(() => {
+        context.commit('increment');
+      }, 1000);
+    },
+  },
+  getters: {
+    double(state) {
+      return 2 * state.count;
+    },
+  },
+});
+
+export function useStore() {
+  return baseUseStore(key);
+}
+```
+
+3. 挂载
+
+```typescript
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router/index';
+import { store, key } from './store/index';
+
+createApp(App).use(router).use(store, key).mount('#app');
+```
+
+## 添加 css 预处理器
+
+Vite 内部已帮我们集成了 stylus, sass, less 等相关的 loader，不需要额外配置。
+
+1. 安装
+
+```shell
+npm i sass -D
+```
+
+2. 使用
+
+```vue
+<style lang="scss">
+  ...
+</style>
+```
+
 # 项目规范
 
 ## 工具
