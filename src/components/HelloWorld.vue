@@ -33,18 +33,18 @@
 
 <style scoped>
   a {
-    color: #42b983;
+    color: #42B983;
   }
 
   label {
-    margin: 0 0.5em;
+    margin: 0 .5em;
     font-weight: bold;
   }
 
   code {
-    background-color: #eee;
-    padding: 2px 4px;
     border-radius: 4px;
+    padding: 2px 4px;
     color: #304455;
+    background-color: #EEEEEE;
   }
 </style>

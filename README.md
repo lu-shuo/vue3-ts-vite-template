@@ -320,7 +320,93 @@ module.exports = {
 
 ## stylelint
 
-TODO
+- 更好的格式化样式代码。
+- 使用标准配置格式化 css 文件使用社区扩展格式化其他类型样式文件
+
+### css
+
+1. 安装
+
+````
+npm install --save-dev stylelint stylelint-config-standard
+``
+1. 创建`stylelint.config.js`:
+
+```javascript
+module.exports = {
+  "extends": "stylelint-config-standard"
+}
+````
+
+3. 使用`stylelint-config-prettier`避免与 prettier 冲突：
+
+```
+npm install --save-dev stylelint-config-prettier
+
+// 配置
+module.exports = {
+  "extends": ["stylelint-config-standard", "stylelint-config-prettier"]
+}
+```
+
+4. 为所有 css 文件执行校验：
+
+```
+npx stylelint "**/*.css"
+```
+
+### 其他样式语言
+
+需要使用社区编写的`custom syntax`，推荐 extend 社区分享的配置文件：例如：我们可以使用`stylelint-config-standard-scss`来 lint scss 代码:
+
+```
+npm install --save-dev stylelint stylelint-config-standard-scss
+
+module.exports = {
+  "extends": "stylelint-config-standard-scss"
+}
+
+npx stylelint "**/*.scss"
+```
+
+如果使用 prettier，还要加上`stylelint-config-prettier-scss`。
+
+### 配置
+
+如果没有现成的社区分享配置，则可以直接使用`custom syntax`：
+
+```
+npm install --save-dev stylelint stylelint-config-standard postcss-lit
+
+{
+  "extends": "stylelint-config-standard",
+  "customSyntax": "postcss-lit"
+}
+```
+
+使用多个`custom syntax`，可以使用`overrides`选项配置指定文件类型的 syntax：
+
+```
+{
+  "extends": ["stylelint-config-standard"],
+  "overrides": [
+    {
+      "files": ["**/*.{js}"],
+      "customSyntax": "postcss-lit"
+    }
+  ]
+}
+```
+
+### 添加 npm 脚本
+
+package.json:
+
+```json
+"scripts": {
+ "lint:stylelint": "stylelint --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/"
+}
+```
 
 ## editorconfig
 
@@ -424,8 +510,8 @@ module.exports = {
   '*.{js,jsx,ts,tsx}': ['eslint --fix', 'prettier --write'],
   '{!(package)*.json,*.code-snippets,.!(browserslist)*rc}': ['prettier --write--parser json'],
   'package.json': ['prettier --write'],
-  '*.vue': ['eslint --fix', 'prettier --write'],
-  '*.{scss,less,styl,html}': ['prettier --write'],
+  '*.vue': ['eslint --fix', 'prettier --write', 'stylelint --fix'],
+  '*.{scss,less,styl,html}': ['stylelint --fix', 'prettier --write'],
   '*.md': ['prettier --write'],
 };
 
