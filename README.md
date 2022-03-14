@@ -993,3 +993,116 @@ husky > commit-msg hook failed (add --no-verify to bypass)
   }
 }
 ```
+
+# 单元测试
+
+我们使用 Vue 官方提供的 vue-test-utils 和社区流行的测试工具 jest 来进行 Vue 组件的单元测试。
+
+## 安装
+
+```shell
+npm install @vue/test-utils jest @vue/vue3-jest ts-jest @types/jest jest-transform-stub babel-jest @babel/core @babel/preset-env -D
+```
+
+## 配置
+
+1. 根目录新建 tests 目录，用来防止我们的单元测试文件
+2. 创建 babel.config.js:
+   ```javascript
+   module.exports = {
+     presets: [
+       [
+         '@babel/preset-env',
+         {
+           targets: {
+             node: 'current',
+           },
+         },
+       ],
+     ],
+   };
+   ```
+3. 创建 jest.config.js
+
+```javascript
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
+module.exports = {
+  // Indicates whether the coverage information should be collected while executing the test
+  preset: 'ts-jest',
+  roots: ['<rootDir>/tests/'],
+  clearMocks: true, // Automatically clear mock calls, instances and results before every test
+  moduleDirectories: ['node_modules', 'src'], // 告诉jest去哪里找模块资源
+  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node', 'vue'],
+  modulePaths: ['<rootDir>/src', '<rootDir>/node_modules'],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1', // alias
+  },
+  collectCoverage: false,
+  coverageDirectory: '<rootDir>/tests/unit/coverage',
+  coverageProvider: 'v8',
+  collectCoverageFrom: ['src/**/*.{js,ts,vue}'],
+  coveragePathIgnorePatterns: ['^.+\\.d\\.ts$'],
+  testEnvironment: 'jsdom',
+  transform: {
+    // 转化方式
+    // process *.vue files with vue-jest
+    '^.+\\.vue$': '@vue/vue3-jest',
+    '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
+    '^.+\\.jsx?$': 'babel-jest',
+    '^.+\\.tsx?$': 'ts-jest',
+  },
+
+  // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
+  transformIgnorePatterns: ['/node_modules/'],
+  // The glob patterns Jest uses to detect test files
+  testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[tj]s?(x)'],
+};
+```
+
+4. tests 目录新建 env.d.ts
+
+   ```typescript
+   declare module '*.vue' {
+     import type { DefineComponent } from 'vue';
+     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+     const component: DefineComponent<{}, {}, any>;
+     export default component;
+   }
+   ```
+
+5. 配置 eslint-plugin-jest
+   ```shell
+   npm install eslint-plugin-jest -D
+   ```
+   添加到`.eslintrc.js`配置中：
+   ```javascript
+    extends: [
+    'plugin:jest/recommended',
+   ],
+   ```
+6. 添加 npm 脚本
+   ```shell
+    "test:unit": "jest",
+    "test:unit-coverage": "jest --coverage",
+   ```
+
+## 测试
+
+新建`about.spec.ts`:
+
+```typescript
+import { mount } from '@vue/test-utils';
+import About from '@/views/About.vue';
+
+describe('Test About', () => {
+  // eslint-disable-next-line jest/expect-expect
+  it('render', () => {
+    const wrapper = mount(About);
+    console.log(wrapper.html());
+  });
+});
+```
+
+```shell
+npm run test:unit
+```

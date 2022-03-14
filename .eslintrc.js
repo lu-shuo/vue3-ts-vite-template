@@ -9,6 +9,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:jest/recommended',
     'prettier', // 防止prettier冲突
     'plugin:prettier/recommended', // 添加 prettier 插件
   ],
