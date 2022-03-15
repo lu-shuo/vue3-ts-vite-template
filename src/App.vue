@@ -4,10 +4,10 @@
 </script>
 
 <template>
-  <h1>
+  <div class="nav">
     <router-link to="/">主页</router-link> |
     <router-link to="/about">关于页</router-link>
-  </h1>
+  </div>
   <router-view></router-view>
 </template>
 
@@ -19,5 +19,16 @@
     color: #2c3e50;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  .nav {
+    margin: 20px 0;
+    font-size: 20px;
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+  .router-link-active {
+    color: green !important;
   }
 </style>

@@ -1,15 +1,7 @@
 <template>
-  <div>
-    <h1 @click="store.commit('increment')">{{ count }}</h1>
-    <h1 @click="store.dispatch('increment')">{{ doubleCount }}</h1>
-  </div>
+  <hello-world msg="Vue3 + Ts + Vite"></hello-world>
 </template>
 
 <script lang="ts" setup>
-  import { computed } from 'vue';
-  import { useStore } from '@/store';
-
-  const store = useStore();
-  const count = computed(() => store.state.count);
-  const doubleCount = computed(() => store.getters.double);
+  import HelloWorld from '@/components/HelloWorld.vue';
 </script>

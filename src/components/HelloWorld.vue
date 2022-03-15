@@ -1,12 +1,17 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { useStore } from '@/store';
+  import { computed } from 'vue';
 
   defineProps<{ msg: string }>();
 
-  const count = ref(0);
+  const store = useStore();
+
+  const count = computed(() => store.state.count);
 </script>
 
 <template>
+  <img src="../assets/logo.png" alt="logo" />
+
   <h1>{{ msg }}</h1>
 
   <p>
@@ -14,6 +19,15 @@
     <a href="https://code.visualstudio.com/" target="_blank">VSCode</a>
     +
     <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
+  </p>
+
+  <p>
+    Lint:
+    <a href="https://eslint.org/" target="_blank">ESlint</a>
+    +
+    <a href="https://prettier.io/" target="_blank">Prettier</a>
+    +
+    <a href="https://stylelint.io/" target="_blank">Stylelint</a>
   </p>
 
   <p>See <code>README.md</code> for more information.</p>
@@ -24,7 +38,7 @@
     <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Docs</a>
   </p>
 
-  <button type="button" @click="count++">count is: {{ count }}</button>
+  <button type="button" @click="store.commit('increment')">count is: {{ count }}</button>
   <p>
     Edit
     <code>components/HelloWorld.vue</code> to test hot module replacement.
