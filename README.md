@@ -1001,7 +1001,7 @@ husky > commit-msg hook failed (add --no-verify to bypass)
 ## 安装
 
 ```shell
-npm install @vue/test-utils jest @vue/vue3-jest ts-jest @types/jest jest-transform-stub babel-jest @babel/core @babel/preset-env -D
+npm install @vue/test-utils jest @vue/vue3-jest ts-jest @types/jest jest-transform-stub babel-jest @babel/core @babel/preset-env @babel/preset-typescript -D
 ```
 
 ## 配置
@@ -1019,6 +1019,7 @@ npm install @vue/test-utils jest @vue/vue3-jest ts-jest @types/jest jest-transfo
            },
          },
        ],
+       '@babel/preset-typescript',
      ],
    };
    ```
