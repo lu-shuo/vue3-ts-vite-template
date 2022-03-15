@@ -1,11 +1,8 @@
 module.exports = {
   root: true,
-  extends: [
-    'stylelint-config-standard',
-    'stylelint-config-standard-scss',
-    'stylelint-config-prettier',
-  ],
-  plugins: ['stylelint-order'],
+  extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
+  plugins: ['stylelint-order', 'stylelint-scss'],
+  customSyntax: 'postcss-html',
   rules: {
     // 类选择器的命名规则
     'selector-class-pattern': '.',
